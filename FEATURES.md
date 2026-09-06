@@ -1,5 +1,14 @@
 # Helm Dashboard Features Overview
 
+## Table of Contents
+
+- [General Layout and Navigation](#general-layout-and-navigation)
+- [Releases Management Section](#releases-management-section)
+  - [Switching Clusters](#switching-clusters)
+  - [Reset Cache](#reset-cache)
+  - [Repository](#repository)
+- [Installed Releases List](#installed-releases-list)
+
 ## General Layout and Navigation
 
 ### Shutting down the app
