@@ -57,6 +57,10 @@ By contributing, you agree that your contributions will be licensed under its Ap
 Contact us on [Slack](https://komodorkommunity.slack.com).
 
 ## PR Review Checklist
-- Ensure tests pass
-- Ensure lint clean
+
+- [ ] All new and existing Go unit tests pass (`go test ./pkg/...`)
+- [ ] Code formatting conforms to `.editorconfig` guidelines
+- [ ] Frontend builds cleanly if UI components were updated (`npm run build`)
+- [ ] Conventional Commits format is used for all commit titles
+- [ ] Documentation (`README.md`, `FEATURES.md`) updated if flags or configurations changed
 
