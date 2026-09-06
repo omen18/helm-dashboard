@@ -2,12 +2,18 @@ DATE    ?= $(shell date +%FT%T%z)
 VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2> /dev/null || \
 			cat $(CURDIR)/.version 2> /dev/null || echo "v0")
 
-.PHONY: all help test pull build_go build_ui build clean debug
+.PHONY: all help test fmt vet pull build_go build_ui build clean debug
 
 .DEFAULT_GOAL := help
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
+
+fmt: ## Format Go source code
+	@go fmt ./...
+
+vet: ## Run Go static analysis (go vet)
+	@go vet ./...
 
 test: ; $(info $(M) start unit testing...) @ ## Run unit test suite
 	@go test $$(go list ./... | grep -v /mocks/) --race -v -short -coverpkg=./... -coverprofile=profile.cov
