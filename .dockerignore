@@ -2,5 +2,11 @@ Dockerfile
 *.md
 bin
 .idea
+.vscode
 .git
+.github
+.husky
+.DS_Store
+profile.cov
+*.log
 frontend/node_modules
