@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"errors"
 	"net/http/httptest"
 	"os"
 	"testing"
@@ -215,5 +216,37 @@ func TestRunCommand_Empty(t *testing.T) {
 	_, err := RunCommand([]string{}, nil)
 	if err == nil {
 		t.Errorf("expected error for empty command")
+	}
+}
+
+func TestCmdError_Error(t *testing.T) {
+	tests := []struct {
+		name     string
+		err      CmdError
+		expected string
+	}{
+		{
+			name:     "with stderr",
+			err:      CmdError{StdErr: "error from stderr"},
+			expected: "error from stderr",
+		},
+		{
+			name:     "with orig error",
+			err:      CmdError{OrigError: errors.New("original error")},
+			expected: "original error",
+		},
+		{
+			name:     "with neither",
+			err:      CmdError{},
+			expected: "command failed with unknown error",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.err.Error(); got != tt.expected {
+				t.Errorf("CmdError.Error() = %q, want %q", got, tt.expected)
+			}
+		})
 	}
 }
