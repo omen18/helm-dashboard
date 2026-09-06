@@ -159,6 +159,15 @@ helm dashboard
 
 Then, use the web UI.
 
+## Environment Variables
+
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `HD_PORT` | Port number to bind the web server | `8080` |
+| `HD_BIND` | IP address or interface to bind the web server | `localhost` |
+| `HD_NO_BROWSER` | Prevent automatic opening of browser upon start (`true`/`1`) | `false` |
+| `DEBUG` | Enable verbose debug logging output | `false` |
+
 ## Development Snapshots
 
 In our GitHub actions, we attach the built binaries as build artifacts, you can download and test it fully assembled.
