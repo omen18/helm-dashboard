@@ -32,6 +32,11 @@ func TestGetQueryProps(t *testing.T) {
 			wantErr:  true,
 			endpoint: "/api/v1/namespaces/komodorio/charts?namespace=testing&revision=1",
 		},
+		{
+			name:     "Get query props - with apiVersion specified",
+			wantErr:  false,
+			endpoint: "/api/v1/namespaces/komodorio/charts?name=testing&apiVersion=apps/v1",
+		},
 	}
 
 	for _, tt := range tests {
