@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -248,5 +249,37 @@ func TestCmdError_Error(t *testing.T) {
 				t.Errorf("CmdError.Error() = %q, want %q", got, tt.expected)
 			}
 		})
+	}
+}
+
+func TestRunCommand_Success(t *testing.T) {
+	out, err := RunCommand([]string{"echo", "test_output"}, nil)
+	if err != nil {
+		t.Fatalf("RunCommand failed: %v", err)
+	}
+	if !strings.Contains(out, "test_output") {
+		t.Errorf("expected output to contain 'test_output', got %q", out)
+	}
+}
+
+func TestRunCommand_WithEnv(t *testing.T) {
+	out, err := RunCommand([]string{"sh", "-c", "echo $CUSTOM_VAR"}, map[string]string{
+		"CUSTOM_VAR": "helm_dashboard_test",
+	})
+	if err != nil {
+		t.Fatalf("RunCommand with env failed: %v", err)
+	}
+	if !strings.Contains(out, "helm_dashboard_test") {
+		t.Errorf("expected output to contain 'helm_dashboard_test', got %q", out)
+	}
+}
+
+func TestRunCommand_ExitError(t *testing.T) {
+	_, err := RunCommand([]string{"sh", "-c", "exit 2"}, nil)
+	if err == nil {
+		t.Fatalf("expected command error for non-zero exit")
+	}
+	if _, ok := err.(CmdError); !ok {
+		t.Errorf("expected error of type CmdError, got %T", err)
 	}
 }
