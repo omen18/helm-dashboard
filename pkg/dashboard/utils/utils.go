@@ -56,8 +56,13 @@ type CmdError struct {
 }
 
 func (e CmdError) Error() string {
-	//return fmt.Sprintf("failed to run command %s:\nError: %s\nSTDERR:%s", e.Command, e.OrigError, e.StdErr)
-	return string(e.StdErr)
+	if e.StdErr != "" {
+		return e.StdErr
+	}
+	if e.OrigError != nil {
+		return e.OrigError.Error()
+	}
+	return "command failed with unknown error"
 }
 
 func RunCommand(cmd []string, env map[string]string) (string, error) {
